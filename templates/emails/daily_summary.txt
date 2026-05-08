@@ -1,0 +1,20 @@
+Al-Muadhin - Daily Prayer Times
+{{ date|date:"l, F j, Y" }}
+
+Assalamu alaikum {{ user.first_name|default:"Friend" }},
+
+Here are today's prayer times for {{ user.city }}, {{ user.country.name }}:
+
+Prayer       Time
+-----------  -----
+Fajr         {{ prayer_times.fajr|date:"H:i" }}
+Dhuhr        {{ prayer_times.dhuhr|date:"H:i" }}
+Asr          {{ prayer_times.asr|date:"H:i" }}
+Maghrib      {{ prayer_times.maghrib|date:"H:i" }}
+Isha         {{ prayer_times.isha|date:"H:i" }}
+
+May your prayers be accepted. 🤲
+
+---
+You received this email because you're subscribed to Al-Muadhin daily prayer summaries.
+View your preferences: {{ SITE_URL }}/dashboard/

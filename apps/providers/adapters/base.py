@@ -27,6 +27,10 @@ class BaseAdapter(ABC):
         """Initiate a phone call that plays the given audio URL."""
         pass
 
+    def send_email(self, to: str, subject: str, html: str, text: str = None) -> SendResult:
+        """Send an email. Override in adapter if supported."""
+        return SendResult(success=False, error_message="This provider does not support email")
+
     def validate_phone(self, phone: str) -> bool:
         """Basic E.164 validation."""
         return bool(re.match(r'^\+[1-9]\d{1,14}$', phone))

@@ -1,0 +1,1 @@
+Today's prayers: Fajr {{ prayer_times.fajr|date:"H:i" }}, Dhuhr {{ prayer_times.dhuhr|date:"H:i" }}, Asr {{ prayer_times.asr|date:"H:i" }}, Maghrib {{ prayer_times.maghrib|date:"H:i" }}, Isha {{ prayer_times.isha|date:"H:i" }}

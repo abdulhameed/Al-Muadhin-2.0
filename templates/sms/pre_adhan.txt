@@ -1,0 +1,1 @@
+{{ prayer }} prayer in {{ minutes }} minutes at {{ time }}. Prepare for salah.

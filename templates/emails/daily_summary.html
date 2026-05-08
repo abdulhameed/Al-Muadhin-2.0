@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        header {
+            text-align: center;
+            color: #1a5f3f;
+            border-bottom: 3px solid #1a5f3f;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        .date {
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .prayer-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .prayer-table th {
+            background-color: #1a5f3f;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        .prayer-table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+        .prayer-name {
+            font-weight: bold;
+            color: #1a5f3f;
+            min-width: 100px;
+        }
+        .prayer-time {
+            text-align: right;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 12px;
+        }
+        .button {
+            display: inline-block;
+            background-color: #1a5f3f;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🕌 Al-Muadhin</h1>
+            <p>Daily Prayer Times</p>
+            <p class="date">{{ date|date:"l, F j, Y" }}</p>
+        </header>
+
+        <p>Assalamu alaikum {{ user.first_name|default:"Friend" }},</p>
+        <p>Here are today's prayer times for {{ user.city }}, {{ user.country.name }}:</p>
+
+        <table class="prayer-table">
+            <thead>
+                <tr>
+                    <th>Prayer</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="prayer-name">Fajr</td>
+                    <td class="prayer-time">{{ prayer_times.fajr|date:"H:i" }}</td>
+                </tr>
+                <tr>
+                    <td class="prayer-name">Dhuhr</td>
+                    <td class="prayer-time">{{ prayer_times.dhuhr|date:"H:i" }}</td>
+                </tr>
+                <tr>
+                    <td class="prayer-name">Asr</td>
+                    <td class="prayer-time">{{ prayer_times.asr|date:"H:i" }}</td>
+                </tr>
+                <tr>
+                    <td class="prayer-name">Maghrib</td>
+                    <td class="prayer-time">{{ prayer_times.maghrib|date:"H:i" }}</td>
+                </tr>
+                <tr>
+                    <td class="prayer-name">Isha</td>
+                    <td class="prayer-time">{{ prayer_times.isha|date:"H:i" }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p style="text-align: center;">
+            <a href="{{ SITE_URL }}/dashboard/" class="button">View Your Preferences</a>
+        </p>
+
+        <div class="footer">
+            <p>You received this email because you're subscribed to Al-Muadhin daily prayer summaries.</p>
+            <p>May your prayers be accepted. 🤲</p>
+        </div>
+    </div>
+</body>
+</html>

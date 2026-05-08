@@ -180,3 +180,10 @@ LOGGING = {
 }
 
 BASE_URL = config('BASE_URL', default='http://localhost:8000')
+
+SUMMARY_HOUR = config('SUMMARY_HOUR', default='5', cast=int)
+DEFAULT_PRE_ADHAN_MINUTES = config('DEFAULT_PRE_ADHAN_MINUTES', default='15', cast=int)
+
+TWILIO_ACCOUNT_SID = config('TWILIO_ACCOUNT_SID', default='')
+TWILIO_AUTH_TOKEN = config('TWILIO_AUTH_TOKEN', default='')
+VONAGE_API_SECRET = config('VONAGE_API_SECRET', default='')
