@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Al-Muadhin - Prayer Notification Service</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            padding: 40px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .description {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .features {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .features ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .features li {
+            padding: 8px 0;
+            color: #555;
+        }
+
+        .features li:before {
+            content: "✓ ";
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        a {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .status {
+            margin-top: 30px;
+            padding: 15px;
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            border-radius: 4px;
+            color: #2e7d32;
+            text-align: left;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background: #4caf50;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        {% if user.is_authenticated %}
+        .auth-info {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e3f2fd;
+            border-radius: 6px;
+            color: #1565c0;
+        }
+
+        .auth-info p {
+            margin: 5px 0;
+        }
+        {% endif %}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📿 Al-Muadhin</h1>
+        <p class="subtitle">Prayer Notification Service</p>
+
+        <div class="description">
+            <p>Stay connected with your daily prayers. Al-Muadhin delivers accurate prayer times and reminders via email, SMS, and phone calls across multiple countries.</p>
+        </div>
+
+        <div class="features">
+            <ul>
+                <li>Accurate prayer times for your location</li>
+                <li>Multi-channel notifications (Email, SMS, Phone)</li>
+                <li>Customizable reminders and preferences</li>
+                <li>Support for multiple countries and timezones</li>
+                <li>Smart notification scheduling</li>
+            </ul>
+        </div>
+
+        <div class="status">
+            <div class="status-badge">✓ System Online</div>
+            <p>Development environment is running and ready for testing.</p>
+        </div>
+
+        <div class="actions">
+            {% if user.is_authenticated %}
+                <a href="/dashboard/home/" class="btn-primary">Go to Dashboard</a>
+                <a href="/admin/" class="btn-secondary">Admin Panel</a>
+            {% else %}
+                <a href="/admin/" class="btn-primary">Sign In</a>
+                <a href="/api/" class="btn-secondary">API Documentation</a>
+            {% endif %}
+        </div>
+
+        {% if user.is_authenticated %}
+        <div class="auth-info">
+            <p><strong>Welcome, {{ user.first_name|default:user.username }}!</strong></p>
+            <p>You're logged in and can access your dashboard and preferences.</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -11,11 +11,13 @@ urlpatterns = [
     path('health/', health_check, name='health_check'),
     path('api/', include([
         path('auth/', include('apps.accounts.urls', namespace='auth')),
+        path('profile/', include('apps.accounts.urls')),
         path('prayers/', include('apps.prayers.urls', namespace='prayers')),
         path('notifications/', include('apps.notifications.urls', namespace='notifications')),
         path('webhooks/', include('apps.notifications.webhook_urls', namespace='webhooks')),
     ])),
-    path('', include('apps.dashboard.urls', namespace='dashboard')),
+    path('dashboard/', include('apps.dashboard.urls', namespace='dashboard')),
+    path('', TemplateView.as_view(template_name='home.html'), name='home'),
 ]
 
 if settings.DEBUG:

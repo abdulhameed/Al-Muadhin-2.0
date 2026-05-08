@@ -1,0 +1,204 @@
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.46kB done
+#1 DONE 0.0s
+
+#2 [web internal] load build definition from Dockerfile
+#2 DONE 0.0s
+
+#2 [web internal] load build definition from Dockerfile
+#2 transferring dockerfile: 420B 0.0s done
+#2 DONE 0.1s
+
+#3 [web internal] load metadata for docker.io/library/python:3.12-slim
+#3 DONE 8.6s
+
+#4 [celery_worker internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.0s
+
+#5 [celery_beat 1/6] FROM docker.io/library/python:3.12-slim@sha256:46cb7cc2877e60fbd5e21a9ae6115c30ace7a077b9f8772da879e4590c18c2e3
+#5 DONE 0.0s
+
+#6 [celery_beat internal] load build context
+#6 transferring context: 13.19kB 0.0s done
+#6 DONE 0.1s
+
+#7 [celery_beat 2/6] WORKDIR /app
+#7 CACHED
+
+#8 [celery_beat 3/6] RUN apt-get update && apt-get install -y     gcc     postgresql-client     && rm -rf /var/lib/apt/lists/*
+#8 CACHED
+
+#9 [celery_beat 4/6] COPY requirements/ /app/requirements/
+#9 DONE 0.0s
+
+#7 [web 2/6] WORKDIR /app
+#7 CACHED
+
+#8 [web 3/6] RUN apt-get update && apt-get install -y     gcc     postgresql-client     && rm -rf /var/lib/apt/lists/*
+#8 CACHED
+
+#10 [web 5/6] RUN pip install -r requirements/dev.txt
+#10 6.251 Collecting Django==5.0.4 (from -r /app/requirements/base.txt (line 1))
+#10 6.864   Downloading Django-5.0.4-py3-none-any.whl.metadata (4.1 kB)
+#10 7.197 Collecting djangorestframework==3.14.0 (from -r /app/requirements/base.txt (line 2))
+#10 7.354   Downloading djangorestframework-3.14.0-py3-none-any.whl.metadata (10 kB)
+#10 7.812 Collecting celery==5.3.4 (from celery[redis]==5.3.4->-r /app/requirements/base.txt (line 3))
+#10 8.565   Downloading celery-5.3.4-py3-none-any.whl.metadata (21 kB)
+#10 9.499 Collecting django-celery-beat==2.6.0 (from -r /app/requirements/base.txt (line 4))
+#10 10.40   Downloading django-celery-beat-2.6.0.tar.gz (160 kB)
+#10 11.38   Installing build dependencies: started
+#10 24.86   Installing build dependencies: finished with status 'done'
+#10 24.87   Getting requirements to build wheel: started
+#10 25.81   Getting requirements to build wheel: finished with status 'done'
+#10 25.81   Preparing metadata (pyproject.toml): started
+#10 26.77   Preparing metadata (pyproject.toml): finished with status 'done'
+#10 27.02 Collecting psycopg==3.1.18 (from psycopg[binary]==3.1.18->-r /app/requirements/base.txt (line 5))
+#10 28.66   Downloading psycopg-3.1.18-py3-none-any.whl.metadata (4.2 kB)
+#10 29.20 Collecting redis==5.0.1 (from -r /app/requirements/base.txt (line 6))
+#10 29.35   Downloading redis-5.0.1-py3-none-any.whl.metadata (8.9 kB)
+#10 29.70 Collecting gunicorn==21.2.0 (from -r /app/requirements/base.txt (line 7))
+#10 29.95   Downloading gunicorn-21.2.0-py3-none-any.whl.metadata (4.1 kB)
+#10 30.27 Collecting requests==2.31.0 (from -r /app/requirements/base.txt (line 8))
+#10 30.43   Downloading requests-2.31.0-py3-none-any.whl.metadata (4.6 kB)
+#10 30.69 Collecting python-dateutil==2.8.2 (from -r /app/requirements/base.txt (line 9))
+#10 30.87   Downloading python_dateutil-2.8.2-py2.py3-none-any.whl.metadata (8.2 kB)
+#10 31.43 Collecting pytz==2024.1 (from -r /app/requirements/base.txt (line 10))
+#10 32.04   Downloading pytz-2024.1-py2.py3-none-any.whl.metadata (22 kB)
+#10 32.32 Collecting django-encrypted-model-fields==0.6.5 (from -r /app/requirements/base.txt (line 11))
+#10 32.47   Downloading django_encrypted_model_fields-0.6.5-py3-none-any.whl.metadata (5.1 kB)
+#10 33.84 Collecting cryptography==42.0.5 (from -r /app/requirements/base.txt (line 12))
+#10 34.34   Downloading cryptography-42.0.5-cp39-abi3-manylinux_2_28_x86_64.whl.metadata (5.3 kB)
+#10 34.91 Collecting python-decouple==3.8 (from -r /app/requirements/base.txt (line 13))
+#10 35.08   Downloading python_decouple-3.8-py3-none-any.whl.metadata (14 kB)
+#10 35.40 Collecting sendgrid==6.11.0 (from -r /app/requirements/base.txt (line 14))
+#10 35.60   Downloading sendgrid-6.11.0-py3-none-any.whl.metadata (11 kB)
+#10 36.84 Collecting Pillow==10.2.0 (from -r /app/requirements/base.txt (line 15))
+#10 36.99   Downloading pillow-10.2.0-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (9.7 kB)
+#10 37.22 Collecting django-debug-toolbar==4.2.0 (from -r requirements/dev.txt (line 2))
+#10 37.35   Downloading django_debug_toolbar-4.2.0-py3-none-any.whl.metadata (3.8 kB)
+#10 38.14 Collecting pytest==7.4.4 (from -r requirements/dev.txt (line 3))
+#10 38.34   Downloading pytest-7.4.4-py3-none-any.whl.metadata (7.9 kB)
+#10 38.61 Collecting pytest-django==4.7.0 (from -r requirements/dev.txt (line 4))
+#10 38.77   Downloading pytest_django-4.7.0-py3-none-any.whl.metadata (8.3 kB)
+#10 38.98 Collecting pytest-cov==4.1.0 (from -r requirements/dev.txt (line 5))
+#10 39.15   Downloading pytest_cov-4.1.0-py3-none-any.whl.metadata (26 kB)
+#10 39.37 Collecting factory-boy==3.3.0 (from -r requirements/dev.txt (line 6))
+#10 39.56   Downloading factory_boy-3.3.0-py2.py3-none-any.whl.metadata (15 kB)
+#10 39.94 Collecting black==24.1.1 (from -r requirements/dev.txt (line 7))
+#10 40.10   Downloading black-24.1.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (73 kB)
+#10 42.24 Collecting ruff==0.2.2 (from -r requirements/dev.txt (line 8))
+#10 42.99   Downloading ruff-0.2.2-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (23 kB)
+#10 44.13 Collecting django-extensions==3.2.3 (from -r requirements/dev.txt (line 9))
+#10 44.51   Downloading django_extensions-3.2.3-py3-none-any.whl.metadata (6.3 kB)
+#10 44.77 Collecting asgiref<4,>=3.7.0 (from Django==5.0.4->-r /app/requirements/base.txt (line 1))
+#10 45.32   Downloading asgiref-3.11.1-py3-none-any.whl.metadata (9.3 kB)
+#10 45.57 Collecting sqlparse>=0.3.1 (from Django==5.0.4->-r /app/requirements/base.txt (line 1))
+#10 45.74   Downloading sqlparse-0.5.5-py3-none-any.whl.metadata (4.7 kB)
+#10 46.12 Collecting billiard<5.0,>=4.1.0 (from celery==5.3.4->celery[redis]==5.3.4->-r /app/requirements/base.txt (line 3))
+#10 46.27   Downloading billiard-4.2.4-py3-none-any.whl.metadata (4.8 kB)
+#10 46.71 Collecting kombu<6.0,>=5.3.2 (from celery==5.3.4->celery[redis]==5.3.4->-r /app/requirements/base.txt (line 3))
+#10 46.87   Downloading kombu-5.6.2-py3-none-any.whl.metadata (3.5 kB)
+#10 47.09 Collecting vine<6.0,>=5.0.0 (from celery==5.3.4->celery[redis]==5.3.4->-r /app/requirements/base.txt (line 3))
+#10 47.23   Downloading vine-5.1.0-py3-none-any.whl.metadata (2.7 kB)
+#10 47.50 Collecting click<9.0,>=8.1.2 (from celery==5.3.4->celery[redis]==5.3.4->-r /app/requirements/base.txt (line 3))
+#10 48.64   Downloading click-8.3.3-py3-none-any.whl.metadata (2.6 kB)
+#10 49.65 Collecting click-didyoumean>=0.3.0 (from celery==5.3.4->celery[redis]==5.3.4->-r /app/requirements/base.txt (line 3))
+#10 50.80   Downloading click_didyoumean-0.3.1-py3-none-any.whl.metadata (3.9 kB)
+#10 51.70 Collecting click-repl>=0.2.0 (from celery==5.3.4->celery[redis]==5.3.4->-r /app/requirements/base.txt (line 3))
+#10 52.54   Downloading click_repl-0.3.0-py3-none-any.whl.metadata (3.6 kB)
+#10 52.80 Collecting click-plugins>=1.1.1 (from celery==5.3.4->celery[redis]==5.3.4->-r /app/requirements/base.txt (line 3))
+#10 52.94   Downloading click_plugins-1.1.1.2-py2.py3-none-any.whl.metadata (6.5 kB)
+#10 53.32 Collecting tzdata>=2022.7 (from celery==5.3.4->celery[redis]==5.3.4->-r /app/requirements/base.txt (line 3))
+#10 54.12   Downloading tzdata-2026.2-py2.py3-none-any.whl.metadata (1.4 kB)
+#10 55.19 Collecting django-timezone-field>=5.0 (from django-celery-beat==2.6.0->-r /app/requirements/base.txt (line 4))
+#10 55.67   Downloading django_timezone_field-7.2.1-py3-none-any.whl.metadata (13 kB)
+#10 56.40 Collecting python-crontab>=2.3.4 (from django-celery-beat==2.6.0->-r /app/requirements/base.txt (line 4))
+#10 56.84   Downloading python_crontab-3.3.0-py3-none-any.whl.metadata (17 kB)
+#10 57.25 Collecting cron-descriptor>=1.2.32 (from django-celery-beat==2.6.0->-r /app/requirements/base.txt (line 4))
+#10 57.40   Downloading cron_descriptor-2.0.8-py3-none-any.whl.metadata (8.1 kB)
+#10 57.83 Collecting typing-extensions>=4.1 (from psycopg==3.1.18->psycopg[binary]==3.1.18->-r /app/requirements/base.txt (line 5))
+#10 57.99   Downloading typing_extensions-4.15.0-py3-none-any.whl.metadata (3.3 kB)
+#10 58.32 Collecting packaging (from gunicorn==21.2.0->-r /app/requirements/base.txt (line 7))
+#10 58.49   Downloading packaging-26.2-py3-none-any.whl.metadata (3.5 kB)
+#10 60.59 Collecting charset-normalizer<4,>=2 (from requests==2.31.0->-r /app/requirements/base.txt (line 8))
+#10 61.50   Downloading charset_normalizer-3.4.7-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (40 kB)
+#10 62.65 Collecting idna<4,>=2.5 (from requests==2.31.0->-r /app/requirements/base.txt (line 8))
+#10 63.26   Downloading idna-3.13-py3-none-any.whl.metadata (8.0 kB)
+#10 63.68 Collecting urllib3<3,>=1.21.1 (from requests==2.31.0->-r /app/requirements/base.txt (line 8))
+#10 63.83   Downloading urllib3-2.6.3-py3-none-any.whl.metadata (6.9 kB)
+#10 64.11 Collecting certifi>=2017.4.17 (from requests==2.31.0->-r /app/requirements/base.txt (line 8))
+#10 64.27   Downloading certifi-2026.4.22-py3-none-any.whl.metadata (2.5 kB)
+#10 64.46 Collecting six>=1.5 (from python-dateutil==2.8.2->-r /app/requirements/base.txt (line 9))
+#10 64.62   Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+#10 67.54 Collecting cffi>=1.12 (from cryptography==42.0.5->-r /app/requirements/base.txt (line 12))
+#10 67.82   Downloading cffi-2.0.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.6 kB)
+#10 68.96 Collecting python-http-client>=3.2.1 (from sendgrid==6.11.0->-r /app/requirements/base.txt (line 14))
+#10 69.59   Downloading python_http_client-3.3.7-py3-none-any.whl.metadata (6.9 kB)
+#10 70.22 Collecting starkbank-ecdsa>=2.0.1 (from sendgrid==6.11.0->-r /app/requirements/base.txt (line 14))
+#10 70.50   Downloading starkbank_ecdsa-2.3.1-py3-none-any.whl.metadata (8.6 kB)
+#10 71.16 Collecting iniconfig (from pytest==7.4.4->-r requirements/dev.txt (line 3))
+#10 71.34   Downloading iniconfig-2.3.0-py3-none-any.whl.metadata (2.5 kB)
+#10 71.65 Collecting pluggy<2.0,>=0.12 (from pytest==7.4.4->-r requirements/dev.txt (line 3))
+#10 71.84   Downloading pluggy-1.6.0-py3-none-any.whl.metadata (4.8 kB)
+#10 76.65 Collecting coverage>=5.2.1 (from coverage[toml]>=5.2.1->pytest-cov==4.1.0->-r requirements/dev.txt (line 5))
+#10 76.86   Downloading coverage-7.13.5-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (8.5 kB)
+#10 77.53 Collecting Faker>=0.7.0 (from factory-boy==3.3.0->-r requirements/dev.txt (line 6))
+#10 77.69   Downloading faker-40.15.0-py3-none-any.whl.metadata (16 kB)
+#10 77.91 Collecting mypy-extensions>=0.4.3 (from black==24.1.1->-r requirements/dev.txt (line 7))
+#10 78.07   Downloading mypy_extensions-1.1.0-py3-none-any.whl.metadata (1.1 kB)
+#10 78.32 Collecting pathspec>=0.9.0 (from black==24.1.1->-r requirements/dev.txt (line 7))
+#10 78.49   Downloading pathspec-1.1.1-py3-none-any.whl.metadata (14 kB)
+#10 79.48 Collecting platformdirs>=2 (from black==24.1.1->-r requirements/dev.txt (line 7))
+#10 79.86   Downloading platformdirs-4.9.6-py3-none-any.whl.metadata (4.7 kB)
+#10 79.98 INFO: pip is looking at multiple versions of celery[redis] to determine which version is compatible with other requirements. This could take a while.
+#10 79.99 ERROR: Cannot install celery[redis]==5.3.4 and redis==5.0.1 because these package versions have conflicting dependencies.
+#10 79.99 
+#10 79.99 The conflict is caused by:
+#10 79.99     The user requested redis==5.0.1
+#10 79.99     celery[redis] 5.3.4 depends on redis!=4.5.5, <5.0.0 and >=4.5.2; extra == "redis"
+#10 79.99 
+#10 79.99 To fix this you could try to:
+#10 79.99 1. loosen the range of package versions you've specified
+#10 79.99 2. remove package versions to allow pip to attempt to solve the dependency conflict
+#10 79.99 
+#10 80.78 
+#10 80.78 [notice] A new release of pip is available: 25.0.1 -> 26.1.1
+#10 80.78 [notice] To update, run: pip install --upgrade pip
+#10 80.79 ERROR: ResolutionImpossible: for help visit https://pip.pypa.io/en/latest/topics/dependency-resolution/#dealing-with-dependency-conflicts
+#10 ERROR: process "/bin/sh -c pip install -r requirements/dev.txt" did not complete successfully: exit code: 1
+------
+ > [web 5/6] RUN pip install -r requirements/dev.txt:
+79.99     celery[redis] 5.3.4 depends on redis!=4.5.5, <5.0.0 and >=4.5.2; extra == "redis"
+79.99 
+79.99 To fix this you could try to:
+79.99 1. loosen the range of package versions you've specified
+79.99 2. remove package versions to allow pip to attempt to solve the dependency conflict
+79.99 
+80.78 
+80.78 [notice] A new release of pip is available: 25.0.1 -> 26.1.1
+80.78 [notice] To update, run: pip install --upgrade pip
+80.79 ERROR: ResolutionImpossible: for help visit https://pip.pypa.io/en/latest/topics/dependency-resolution/#dealing-with-dependency-conflicts
+------
+Dockerfile:15
+
+--------------------
+
+  13 |     
+
+  14 |     COPY requirements/ /app/requirements/
+
+  15 | >>> RUN pip install -r requirements/dev.txt
+
+  16 |     
+
+  17 |     COPY . /app/
+
+--------------------
+
+target celery_beat: failed to solve: process "/bin/sh -c pip install -r requirements/dev.txt" did not complete successfully: exit code: 1
+
+
+
+View build details: docker-desktop://dashboard/build/default/default/4ihks8r9b6g8xvsea1okqt9uv
+
