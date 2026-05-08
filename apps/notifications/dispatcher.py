@@ -1,10 +1,49 @@
 import logging
+import time
 from django.conf import settings
 from django.utils import timezone
+from django.core.cache import cache
 from apps.providers.models import TelcoProvider, ProviderCountry
 from apps.providers.registry import get_adapter
 
 logger = logging.getLogger(__name__)
+
+
+class RateLimiter:
+    """Rate limiter for concurrent API calls to providers."""
+
+    # Per-provider rate limits (calls per minute)
+    RATE_LIMITS = {
+        'twilio': 100,
+        'vonage': 60,
+        'termii': 50,
+        'sendgrid': 200,
+    }
+
+    @staticmethod
+    def get_rate_limit_key(provider_name):
+        """Get Redis key for tracking call count."""
+        return f"rate_limit:{provider_name}:{int(time.time() // 60)}"
+
+    @staticmethod
+    def can_send(provider_name):
+        """Check if a call can be sent without exceeding rate limit."""
+        limit = RateLimiter.RATE_LIMITS.get(provider_name.lower(), 100)
+        key = RateLimiter.get_rate_limit_key(provider_name)
+
+        current_count = cache.get(key, 0)
+        if current_count >= limit:
+            logger.warning(f"Rate limit exceeded for {provider_name}")
+            return False
+
+        return True
+
+    @staticmethod
+    def record_send(provider_name):
+        """Record a successful send to increment the call counter."""
+        key = RateLimiter.get_rate_limit_key(provider_name)
+        current_count = cache.get(key, 0)
+        cache.set(key, current_count + 1, 60)
 
 
 class ProviderDispatcher:
@@ -129,7 +168,7 @@ class ProviderDispatcher:
 
     @staticmethod
     def dispatch_call(user, audio_url, prayer=None):
-        """Make phone call with fallback to secondary providers."""
+        """Make phone call with fallback to secondary providers and rate limiting."""
         from .models import NotificationLog
 
         if not user.phone_number:
@@ -144,9 +183,17 @@ class ProviderDispatcher:
             return False
 
         for provider in providers:
+            # Check rate limit before attempting call
+            if not RateLimiter.can_send(provider.name):
+                logger.info(f"Rate limit preventing call via {provider.name}, trying next provider")
+                continue
+
             try:
                 adapter = get_adapter(provider)
                 result = adapter.make_call(user.phone_number, audio_url)
+
+                # Record the send attempt
+                RateLimiter.record_send(provider.name)
 
                 notification = NotificationLog.objects.create(
                     user=user,

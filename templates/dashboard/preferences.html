@@ -1,0 +1,468 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}Notification Preferences - Al-Muadhin{% endblock %}
+
+{% block content %}
+<div class="preferences-container">
+    <h1>Notification Preferences</h1>
+
+    <div class="preferences-form">
+        <form id="preferencesForm">
+            {% csrf_token %}
+
+            <!-- Per-Prayer Preferences Grid -->
+            <section class="prayer-preferences">
+                <h2>Prayer-Specific Preferences</h2>
+                <p class="help-text">Customize notifications for each of the five daily prayers</p>
+
+                <div class="prayer-grid">
+                    <table class="preferences-table">
+                        <thead>
+                            <tr>
+                                <th>Prayer</th>
+                                <th>Summary Email</th>
+                                <th>Summary SMS</th>
+                                <th>Pre-Adhan SMS</th>
+                                <th>Adhan SMS</th>
+                                <th>Adhan Call</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-prayer="fajr">
+                                <td class="prayer-name">Fajr</td>
+                                <td>
+                                    <input type="checkbox" name="fajr-summary_email" class="pref-toggle" checked>
+                                </td>
+                                <td>
+                                    <input type="checkbox" name="fajr-summary_sms" class="pref-toggle premium-only">
+                                </td>
+                                <td>
+                                    <input type="checkbox" name="fajr-pre_adhan_sms" class="pref-toggle premium-only">
+                                </td>
+                                <td>
+                                    <input type="checkbox" name="fajr-adhan_sms" class="pref-toggle premium-only">
+                                </td>
+                                <td>
+                                    <input type="checkbox" name="fajr-adhan_call" class="pref-toggle premium-only">
+                                </td>
+                            </tr>
+                            <tr data-prayer="dhuhr">
+                                <td class="prayer-name">Dhuhr</td>
+                                <td>
+                                    <input type="checkbox" name="dhuhr-summary_email" class="pref-toggle" checked>
+                                </td>
+                                <td>
+                                    <input type="checkbox" name="dhuhr-summary_sms" class="pref-toggle premium-only">
+                                </td>
+                                <td>
+                                    <input type="checkbox" name="dhuhr-pre_adhan_sms" class="pref-toggle premium-only">
+                                </td>
+                                <td>
+                                    <input type="checkbox" name="dhuhr-adhan_sms" class="pref-toggle premium-only">
+                                </td>
+                                <td>
+                                    <input type="checkbox" name="dhuhr-adhan_call" class="pref-toggle premium-only">
+                                </td>
+                            </tr>
+                            <tr data-prayer="asr">
+                                <td class="prayer-name">Asr</td>
+                                <td>
+                                    <input type="checkbox" name="asr-summary_email" class="pref-toggle" checked>
+                                </td>
+                                <td>
+                                    <input type="checkbox" name="asr-summary_sms" class="pref-toggle premium-only">
+                                </td>
+                                <td>
+                                    <input type="checkbox" name="asr-pre_adhan_sms" class="pref-toggle premium-only">
+                                </td>
+                                <td>
+                                    <input type="checkbox" name="asr-adhan_sms" class="pref-toggle premium-only">
+                                </td>
+                                <td>
+                                    <input type="checkbox" name="asr-adhan_call" class="pref-toggle premium-only">
+                                </td>
+                            </tr>
+                            <tr data-prayer="maghrib">
+                                <td class="prayer-name">Maghrib</td>
+                                <td>
+                                    <input type="checkbox" name="maghrib-summary_email" class="pref-toggle" checked>
+                                </td>
+                                <td>
+                                    <input type="checkbox" name="maghrib-summary_sms" class="pref-toggle premium-only">
+                                </td>
+                                <td>
+                                    <input type="checkbox" name="maghrib-pre_adhan_sms" class="pref-toggle premium-only">
+                                </td>
+                                <td>
+                                    <input type="checkbox" name="maghrib-adhan_sms" class="pref-toggle premium-only">
+                                </td>
+                                <td>
+                                    <input type="checkbox" name="maghrib-adhan_call" class="pref-toggle premium-only">
+                                </td>
+                            </tr>
+                            <tr data-prayer="isha">
+                                <td class="prayer-name">Isha</td>
+                                <td>
+                                    <input type="checkbox" name="isha-summary_email" class="pref-toggle" checked>
+                                </td>
+                                <td>
+                                    <input type="checkbox" name="isha-summary_sms" class="pref-toggle premium-only">
+                                </td>
+                                <td>
+                                    <input type="checkbox" name="isha-pre_adhan_sms" class="pref-toggle premium-only">
+                                </td>
+                                <td>
+                                    <input type="checkbox" name="isha-adhan_sms" class="pref-toggle premium-only">
+                                </td>
+                                <td>
+                                    <input type="checkbox" name="isha-adhan_call" class="pref-toggle premium-only">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                {% if user_tier == 'free' %}
+                <div class="premium-notice">
+                    <p>SMS and phone call notifications are available with a <strong>Premium subscription</strong>.</p>
+                    <a href="/dashboard/subscription/" class="btn btn-primary">Upgrade to Premium</a>
+                </div>
+                {% endif %}
+            </section>
+
+            <!-- Location & Calculation Settings -->
+            <section class="location-settings">
+                <h2>Location & Calculation Method</h2>
+
+                <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="text" id="city" name="city" class="form-control" placeholder="e.g., Lagos">
+                </div>
+
+                <div class="form-group">
+                    <label for="country">Country</label>
+                    <select id="country" name="country" class="form-control">
+                        <option>Select a country...</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="timezone">Timezone</label>
+                    <select id="timezone" name="timezone" class="form-control">
+                        <option>Select a timezone...</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="method">Calculation Method</label>
+                    <select id="method" name="method" class="form-control">
+                        <option value="MWL">Muslim World League</option>
+                        <option value="ISNA">Islamic Society of North America</option>
+                        <option value="Egypt">Egyptian General Authority</option>
+                        <option value="Makkah">Umm Al-Qura University</option>
+                        <option value="Karachi">University of Islamic Sciences</option>
+                        <option value="Tehran">Institute of Geophysics</option>
+                    </select>
+                </div>
+            </section>
+
+            <!-- Notification Timing -->
+            <section class="timing-settings">
+                <h2>Notification Timing</h2>
+
+                <div class="form-group">
+                    <label for="summary_hour">Daily Summary Hour (local time)</label>
+                    <input type="number" id="summary_hour" name="summary_hour" min="0" max="23" class="form-control" placeholder="5">
+                </div>
+
+                <div class="form-group">
+                    <label for="pre_adhan_minutes">Pre-Adhan Notification (minutes before)</label>
+                    <select id="pre_adhan_minutes" name="pre_adhan_minutes" class="form-control">
+                        <option value="5">5 minutes</option>
+                        <option value="10">10 minutes</option>
+                        <option value="15" selected>15 minutes</option>
+                        <option value="20">20 minutes</option>
+                        <option value="30">30 minutes</option>
+                    </select>
+                </div>
+            </section>
+
+            <!-- Contact Info -->
+            <section class="contact-settings">
+                <h2>Contact Information</h2>
+
+                <div class="form-group">
+                    <label for="phone_number">Phone Number</label>
+                    <input type="tel" id="phone_number" name="phone_number" class="form-control" placeholder="+234..." required>
+                    <small>Required for SMS and phone call notifications</small>
+                </div>
+
+                {% if user_tier == 'premium' %}
+                <div class="form-group">
+                    <label for="preferred_muezzin">Preferred Muezzin Voice</label>
+                    <select id="preferred_muezzin" name="preferred_muezzin" class="form-control">
+                        <option value="mishary_rashid">Mishary Rashid</option>
+                        <option value="abdul_basit">Abdul Basit</option>
+                    </select>
+                    <small>Used for phone call adhan notifications</small>
+                </div>
+                {% endif %}
+            </section>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Save Preferences</button>
+                <button type="button" class="btn btn-secondary" id="resetBtn">Reset</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .preferences-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .preferences-container h1 {
+        color: #1a5f3f;
+        margin-bottom: 30px;
+    }
+
+    .preferences-container h2 {
+        color: #2d8659;
+        margin-top: 30px;
+        margin-bottom: 15px;
+        font-size: 18px;
+    }
+
+    .preferences-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        margin: 20px 0;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .preferences-table th,
+    .preferences-table td {
+        padding: 12px;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+    }
+
+    .preferences-table th {
+        background-color: #1a5f3f;
+        color: white;
+        font-weight: bold;
+    }
+
+    .preferences-table .prayer-name {
+        text-align: left;
+        font-weight: bold;
+        color: #1a5f3f;
+    }
+
+    .preferences-table input[type="checkbox"] {
+        cursor: pointer;
+        width: 18px;
+        height: 18px;
+    }
+
+    .preferences-table input[type="checkbox"]:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    .premium-only:disabled + .premium-badge {
+        display: inline;
+    }
+
+    .premium-notice {
+        background-color: #fff3cd;
+        border: 1px solid #ffc107;
+        padding: 15px;
+        border-radius: 4px;
+        margin-top: 20px;
+    }
+
+    .premium-notice p {
+        margin: 0 0 10px 0;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: #1a5f3f;
+        box-shadow: 0 0 0 3px rgba(26, 95, 63, 0.1);
+    }
+
+    .form-actions {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+        display: flex;
+        gap: 10px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    .btn-primary {
+        background-color: #1a5f3f;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: #0f4028;
+    }
+
+    .btn-secondary {
+        background-color: #ddd;
+        color: #333;
+    }
+
+    .btn-secondary:hover {
+        background-color: #bbb;
+    }
+
+    .help-text {
+        color: #666;
+        font-size: 14px;
+        margin-bottom: 15px;
+    }
+
+    small {
+        display: block;
+        color: #666;
+        font-size: 12px;
+        margin-top: 5px;
+    }
+</style>
+
+<script>
+    const userTier = '{{ user_tier }}';
+    const preferencesForm = document.getElementById('preferencesForm');
+
+    // Load preferences on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        loadPreferences();
+        if (userTier === 'free') {
+            disablePremiumOptions();
+        }
+    });
+
+    function disablePremiumOptions() {
+        document.querySelectorAll('.premium-only').forEach(checkbox => {
+            checkbox.disabled = true;
+            checkbox.checked = false;
+        });
+    }
+
+    function loadPreferences() {
+        fetch('/api/notifications/preferences/', {
+            headers: {
+                'Authorization': 'Token ' + getCookie('auth_token') || '',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            for (const [prayer, prefs] of Object.entries(data)) {
+                setCheckboxValue(`${prayer}-summary_email`, prefs.summary_email);
+                setCheckboxValue(`${prayer}-summary_sms`, prefs.summary_sms);
+                setCheckboxValue(`${prayer}-pre_adhan_sms`, prefs.pre_adhan_sms);
+                setCheckboxValue(`${prayer}-adhan_sms`, prefs.adhan_sms);
+                setCheckboxValue(`${prayer}-adhan_call`, prefs.adhan_call);
+            }
+        });
+    }
+
+    function setCheckboxValue(name, value) {
+        const checkbox = document.querySelector(`input[name="${name}"]`);
+        if (checkbox) {
+            checkbox.checked = value;
+        }
+    }
+
+    preferencesForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const formData = new FormData(preferencesForm);
+        const data = {};
+
+        // Build prayer preferences object
+        const prayers = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
+        prayers.forEach(prayer => {
+            data[prayer] = {
+                summary_email: formData.get(`${prayer}-summary_email`) === 'on',
+                summary_sms: formData.get(`${prayer}-summary_sms`) === 'on',
+                pre_adhan_sms: formData.get(`${prayer}-pre_adhan_sms`) === 'on',
+                adhan_sms: formData.get(`${prayer}-adhan_sms`) === 'on',
+                adhan_call: formData.get(`${prayer}-adhan_call`) === 'on',
+            };
+        });
+
+        fetch('/api/notifications/preferences/', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Token ' + getCookie('auth_token') || '',
+                'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert('Preferences saved successfully!');
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error saving preferences');
+        });
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', function() {
+        if (confirm('Reset all preferences to defaults?')) {
+            loadPreferences();
+        }
+    });
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>
+{% endblock %}
