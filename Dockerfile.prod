@@ -1,0 +1,68 @@
+# Multi-stage production build for Al-Muadhin
+
+# Stage 1: Builder
+FROM python:3.12-slim as builder
+
+WORKDIR /app
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=1
+
+RUN apt-get update && apt-get install -y \
+    gcc \
+    postgresql-client \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements/ /app/requirements/
+RUN pip install --user --no-warn-script-location -r requirements/prod.txt
+
+
+# Stage 2: Runtime
+FROM python:3.12-slim
+
+WORKDIR /app
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PATH=/root/.local/bin:$PATH \
+    DJANGO_SETTINGS_MODULE=config.settings.prod
+
+# Install only runtime dependencies
+RUN apt-get update && apt-get install -y \
+    postgresql-client \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create non-root user
+RUN useradd -m -u 1000 appuser
+
+# Copy Python dependencies from builder
+COPY --from=builder /root/.local /root/.local
+
+# Copy application code
+COPY --chown=appuser:appuser . /app/
+
+# Create necessary directories
+RUN mkdir -p /app/staticfiles /app/logs && chown appuser:appuser /app/staticfiles /app/logs
+
+# Switch to non-root user
+USER appuser
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD curl -f http://localhost:8000/health/ || exit 1
+
+# Run Gunicorn
+CMD ["gunicorn", \
+     "--bind", "0.0.0.0:8000", \
+     "--workers", "4", \
+     "--worker-class", "sync", \
+     "--worker-tmp-dir", "/dev/shm", \
+     "--max-requests", "1000", \
+     "--max-requests-jitter", "50", \
+     "--timeout", "30", \
+     "--access-logfile", "-", \
+     "--error-logfile", "-", \
+     "config.wsgi:application"]
