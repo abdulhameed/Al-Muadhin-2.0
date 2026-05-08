@@ -3,12 +3,13 @@ from django.shortcuts import render
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.pagination import PageNumberPagination
 from apps.accounts.models import NotificationPreference
 from .models import NotificationLog
 from .serializers import NotificationLogSerializer
 from .services import NotificationService
+from apps.providers.services import CostAnalytics
 
 logger = logging.getLogger(__name__)
 
@@ -140,6 +141,38 @@ class NotificationsViewSet(viewsets.ViewSet):
 
             logger.info(f"User {request.user.id} updated {prayer} preferences")
             return Response({'status': 'updated'})
+
+    @action(detail=False, methods=['get'], permission_classes=[IsAdminUser])
+    def cost_summary(self, request):
+        """Get cost breakdown by provider, country, and channel (admin only)."""
+        days = request.query_params.get('days', 30)
+        try:
+            days = int(days)
+        except ValueError:
+            days = 30
+
+        from django.utils import timezone
+        from datetime import timedelta
+
+        end_date = timezone.now()
+        start_date = end_date - timedelta(days=days)
+
+        summary = CostAnalytics.get_cost_summary(start_date, end_date)
+        return Response(summary)
+
+    @action(detail=False, methods=['get'], permission_classes=[IsAdminUser])
+    def cost_by_provider(self, request):
+        """Get cost breakdown by provider (admin only)."""
+        from apps.providers.models import TelcoProvider
+
+        providers = TelcoProvider.objects.filter(is_active=True)
+        data = []
+
+        for provider in providers:
+            costs = CostAnalytics.get_provider_costs(provider)
+            data.append(costs)
+
+        return Response(data)
 
 
 def notification_list(request):

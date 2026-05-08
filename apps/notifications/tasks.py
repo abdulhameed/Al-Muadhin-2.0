@@ -8,6 +8,7 @@ from .timezone_utils import (
     get_users_with_prayer_now
 )
 from apps.accounts.models import User, NotificationPreference
+from apps.providers.services import ProviderHealthMonitor
 
 logger = logging.getLogger(__name__)
 
@@ -72,3 +73,20 @@ def dispatch_adhan_notifications():
 
     logger.info(f"Sent adhan notifications to {total_sent} users")
     return total_sent
+
+
+@shared_task
+def monitor_provider_health():
+    """Monitor provider health and auto-disable/enable based on performance."""
+    changes = ProviderHealthMonitor.check_all_providers()
+
+    if changes['unhealthy']:
+        logger.warning(f"Providers marked as unhealthy: {changes['unhealthy']}")
+
+    if changes['recovered']:
+        logger.info(f"Providers recovered and marked healthy: {changes['recovered']}")
+
+    return {
+        'unhealthy_count': len(changes['unhealthy']),
+        'recovered_count': len(changes['recovered']),
+    }

@@ -22,6 +22,10 @@ app.conf.beat_schedule = {
         'task': 'apps.notifications.tasks.dispatch_adhan_notifications',
         'schedule': 60.0,
     },
+    'monitor-provider-health': {
+        'task': 'apps.notifications.tasks.monitor_provider_health',
+        'schedule': 600.0,  # Every 10 minutes
+    },
 }
 
 @app.task(bind=True)
